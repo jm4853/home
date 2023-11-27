@@ -1,3 +1,4 @@
+"https://cscope.sourceforge.net/cscope_vim_tutorial.html
 "syntax enable
 "set background=dark
 "colorscheme solarized
