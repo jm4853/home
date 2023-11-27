@@ -1,3 +1,4 @@
+"https://github.com/christoomey/vim-tmux-navigator
 "https://cscope.sourceforge.net/cscope_vim_tutorial.html
 "syntax enable
 "set background=dark
