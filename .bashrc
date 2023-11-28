@@ -1,3 +1,6 @@
+# Minecraft Font (Install on windows then select in terminal settings)
+# https://github.com/IdreesInc/Monocraft/releases
+
 PATH="$PATH:$HOME/tools:$HOME/bin"
 
 alias o='less'
