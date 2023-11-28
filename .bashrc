@@ -1,5 +1,7 @@
 # Minecraft Font (Install on windows then select in terminal settings)
 # https://github.com/IdreesInc/Monocraft/releases
+# Hezekiah Font
+# https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hack.zip
 
 PATH="$PATH:$HOME/tools:$HOME/bin"
 
