@@ -82,13 +82,26 @@ alias rbrc='source $HOME/.bashrc'
 alias wvrc='vim $HOME/.vimrc'
 alias cc='cc -Wall'
 
+# To generate RGB color escape codes, use "\033[38;2;{r};{g};{b}m" (WONT WORK IN TMUX, depending on version)
+# https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
+
+BLUE="\033[38;5;27m"
+RED="\033[38;5;196m"
+ORANGE="\033[38;5;208m"
+CYAN="\033[38;5;37m"
+PURPLE="\033[38;5;91m"
+WHITE="\033[38;5;15m"
+GRAY="\033[38;5;241m"
+BLACK="\033[38;5;0m"
+TEXT_RESET="\033[00m"
+
 # get current branch in git repo
 function parse_git_branch() {
 	BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
 	if [ ! "${BRANCH}" == "" ]
 	then
 		STAT=`parse_git_dirty`
-		echo "[${BRANCH}${STAT}]"
+		echo " ${CYAN}[${GRAY}${BRANCH}${STAT}${CYAN}]"
 	else
 		echo ""
 	fi
@@ -128,17 +141,6 @@ function parse_git_dirty {
 		echo ""
 	fi
 }
-
-# To generate RGB color escape codes, use "\033[38;2;{r};{g};{b}m" (WONT WORK IN TMUX, depending on version)
-# https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
-
-BLUE="\033[38;5;27m"
-RED="\033[38;5;196m"
-ORANGE="\033[38;5;208m"
-CYAN="\033[38;5;37m"
-PURPLE="\033[38;5;91m"
-WHITE="\033[38;5;15m"
-TEXT_RESET="\033[00m"
 
 function make_prompt() {
     v=$?
