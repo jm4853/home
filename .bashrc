@@ -129,35 +129,37 @@ function parse_git_dirty {
 	fi
 }
 
-export PS1="\[\e[0m\][\[\e[0m\]\t\[\e[0m\]] \[\e[0m\]\w \[\e[0m\]\`parse_git_branch\`\[\e[0;38;5;46m\]> \[\e[0m\]"
-
 # To generate RGB color escape codes, use "\033[38;2;{r};{g};{b}m" (WONT WORK IN TMUX, depending on version)
 # https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
 
-CURR_DIR="\w"
-TIME_STR="\t"
-BLUE="\[\033[38;5;27m\]"
-RED="\[\033[38;5;196m\]"
-CYAN="\[\033[38;5;37m\]"
-PURPLE="\[\033[38;5;91m\]"
-WHITE="\[\033[38;5;15m\]"
-TEXT_RESET="\[\033[00m\]"
+BLUE="\033[38;5;27m"
+RED="\033[38;5;196m"
+ORANGE="\033[38;5;208m"
+CYAN="\033[38;5;37m"
+PURPLE="\033[38;5;91m"
+WHITE="\033[38;5;15m"
+TEXT_RESET="\033[00m"
 
-function checkReturnValue()
-{
+function make_prompt() {
     v=$?
+    RET_VAL=""
+    # parse return value
     if [ "$v" -ne "0" ]; then
-        echo -ne "\033[38;5;196m"
+        # echo -ne "\[\033[38;5;37m\]"
+        RET_VAL="${RET_VAL}${RED}"
         if [ "$v" -ne "130" ]; then
-            echo -e "$v"
+            # echo -e "$v"
+            RET_VAL="${RET_VAL}$v"
         fi
-    else
-        echo -e ""
     fi
+
+    GIT_STR="$(parse_git_branch)"
+    TIME_STR="$(date +%T)"
+    PWD_STR="$(dirs)"
+
+    echo -e "${CYAN}[${PURPLE}${TIME_STR}${CYAN}] ${WHITE}${PWD_STR}${GIT_STR} ${PURPLE}${RET_VAL}> ${TEXT_RESET}"
 }
 
-ret_val_func='$(checkReturnValue)'
 # Can implement PS0 to display after commands finish but before next prompt (depending on bash version)
 # https://wiki.archlinux.org/title/Bash/Prompt_customization
-# export PS1="${CYAN}[${PURPLE}\t${CYAN}] ${WHITE}\w ${PURPLE}${ret_val_func}> ${TEXT_RESET}"
-export PS1="${CYAN}[${PURPLE}\t${CYAN}] ${WHITE}\w\`parse_git_branch\` ${PURPLE}${ret_val_func}> ${TEXT_RESET}"
+export PS1='$(make_prompt)'
