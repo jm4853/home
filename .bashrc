@@ -2,6 +2,8 @@
 # https://github.com/IdreesInc/Monocraft/releases
 # Hezekiah Font
 # https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hack.zip
+# LSP more color highlights nvim
+# https://github.com/nvim-treesitter/nvim-treesitter
 
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
