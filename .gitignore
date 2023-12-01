@@ -1,0 +1,8 @@
+# Ignore everything
+/*
+
+# Except...
+!.gitignore
+!.bashrc
+!.vimrc
+!.bash_aliases
