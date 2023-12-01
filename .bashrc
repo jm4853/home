@@ -67,25 +67,6 @@ fi
 # Add ~/tools to PATH
 export PATH="$PATH:$HOME/tools:$HOME/bin"
 
-# Common Aliases
-alias v='vim'
-alias o='less'
-alias l='ls -lah'
-alias mv='mv -i'
-alias cp='cp -i'
-alias t='tmux'
-alias ta='tmux attach-session -t'
-alias tl='tmux ls'
-alias ts='tmux new -s'
-alias tk='tmux kill-session -t'
-alias ..='cd ..'
-alias cd..='cd ..'
-alias cd...='cd ../..'
-alias wbrc='vim $HOME/.bashrc'
-alias rbrc='source $HOME/.bashrc'
-alias wvrc='vim $HOME/.vimrc'
-alias cc='cc -Wall'
-
 # To generate RGB color escape codes, use "\033[38;2;{r};{g};{b}m" (WONT WORK IN TMUX, depending on version)
 # https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
 
