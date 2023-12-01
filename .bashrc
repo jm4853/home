@@ -132,10 +132,8 @@ function make_prompt() {
     RET_VAL=""
     # parse return value
     if [ "$v" -ne "0" ]; then
-        # echo -ne "\[\033[38;5;37m\]"
         RET_VAL="${RET_VAL}${RED}"
         if [ "$v" -ne "130" ]; then
-            # echo -e "$v"
             RET_VAL="${RET_VAL}$v"
         fi
     fi
