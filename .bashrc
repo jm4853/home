@@ -4,6 +4,8 @@
 # https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hack.zip
 # LSP more color highlights nvim
 # https://github.com/nvim-treesitter/nvim-treesitter
+# gruv box theme
+# https://github.com/morhetz/gruvbox
 
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
