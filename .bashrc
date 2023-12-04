@@ -70,27 +70,29 @@ export PATH="$PATH:$HOME/tools:$HOME/bin"
 # To generate RGB color escape codes, use "\033[38;2;{r};{g};{b}m" (WONT WORK IN TMUX, depending on version)
 # https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
 
-BLUE="\033[38;5;27m"
-RED="\033[38;5;196m"
-ORANGE="\033[38;5;208m"
-CYAN="\033[38;5;37m"
-PURPLE="\033[38;5;91m"
-WHITE="\033[38;5;15m"
-GRAY="\033[38;5;241m"
-BLACK="\033[38;5;0m"
-TEXT_RESET="\033[00m"
+BLUE="\[\033[38;5;27m\]"
+RED="\[\033[38;5;196m\]"
+ORANGE="\[\033[38;5;208m\]"
+CYAN="\[\033[38;5;37m\]"
+PURPLE="\[\033[38;5;91m\]"
+WHITE="\[\033[38;5;15m\]"
+GRAY="\[\033[38;5;241m\]"
+BLACK="\[\033[38;5;0m\]"
+TEXT_RESET="\[\033[00m\]"
 
 # get current branch in git repo
 function parse_git_branch() {
-	BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
-	if [ ! "${BRANCH}" == "" ]
-	then
-		STAT=`parse_git_dirty`
-		echo " ${CYAN}[${GRAY}${BRANCH}${STAT}${CYAN}]"
-	else
-		echo ""
-	fi
-}
+    v=$?
+    BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+    if [ ! "${BRANCH}" == "" ]
+    then
+        STAT=`parse_git_dirty`
+        echo -e " \033[38;5;37m[\033[38;5;241m${BRANCH}${STAT}\033[38;5;37m]"
+    else
+        echo ""
+    fi
+    exit $v
+
 
 # get current status of git repo
 function parse_git_dirty {
@@ -127,24 +129,14 @@ function parse_git_dirty {
 	fi
 }
 
-function make_prompt() {
+function ret_val() {
     v=$?
-    RET_VAL=""
-    # parse return value
     if [ "$v" -ne "0" ]; then
-        RET_VAL="${RET_VAL}${RED}"
+        echo -ne "\033[38;5;196m"
         if [ "$v" -ne "130" ]; then
-            RET_VAL="${RET_VAL}$v"
+            echo -e "$v"
         fi
     fi
-
-    GIT_STR="$(parse_git_branch)"
-    TIME_STR="$(date +%T)"
-    PWD_STR="$(dirs)"
-
-    echo -e "${CYAN}[${PURPLE}${TIME_STR}${CYAN}] ${WHITE}${PWD_STR}${GIT_STR} ${PURPLE}${RET_VAL}> ${TEXT_RESET}"
 }
 
-# Can implement PS0 to display after commands finish but before next prompt (depending on bash version)
-# https://wiki.archlinux.org/title/Bash/Prompt_customization
-export PS1='$(make_prompt)'
+export PS1="${CYAN}[${PURPLE}\t${CYAN}] ${WHITE}\w\`parse_git_branch\` ${PURPLE}\`ret_val\`> ${TEXT_RESET}
