@@ -151,7 +151,7 @@ function _dir_chomp () {
         p=${p#*/}
         ((s=${#b}+${#p}))
     done
-    echo -e "${b/\/~/\~}${b+/}$p"
+    echo -e "${b/\/~/~}${b+/}$p"
     exit $rv
 }
 
