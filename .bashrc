@@ -138,5 +138,5 @@ function ret_val() {
         fi
     fi
 }
-
+export PROMPT_DIRTRIM=4
 export PS1="${CYAN}[${PURPLE}\t${CYAN}] ${WHITE}\w\`parse_git_branch\` ${PURPLE}\`ret_val\`> ${TEXT_RESET}
