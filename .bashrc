@@ -138,5 +138,23 @@ function ret_val() {
         fi
     fi
 }
-export PROMPT_DIRTRIM=4
-export PS1="${CYAN}[${PURPLE}\t${CYAN}] ${WHITE}\w\`parse_git_branch\` ${PURPLE}\`ret_val\`> ${TEXT_RESET}
+
+function _dir_chomp () {
+    rv=$?
+    local p=${1/#$HOME/\~} b s
+    s=${#p}
+    while [[ $p != "${p//\/}" ]]&&(($s>$2))
+    do
+        p=${p#/}
+        [[ $p =~ \.?. ]]
+        b=$b/${BASH_REMATCH[0]}
+        p=${p#*/}
+        ((s=${#b}+${#p}))
+    done
+    echo -e "${b/\/~/\~}${b+/}$p"
+    exit $rv
+}
+
+
+dir_str='$(_dir_chomp "$(pwd)" 36)'
+export PS1="${CYAN}[${PURPLE}\t${CYAN}] ${WHITE}${dir_str}\`parse_git_branch\` ${PURPLE}\`ret_val\`> ${TEXT_RESET}"
