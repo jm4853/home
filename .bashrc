@@ -92,7 +92,7 @@ function parse_git_branch() {
         echo ""
     fi
     exit $v
-
+}
 
 # get current status of git repo
 function parse_git_dirty {
