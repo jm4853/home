@@ -140,10 +140,12 @@ function ret_val() {
 }
 
 function _dir_chomp () {
-    rv=$?
-    local p=${1/#$HOME/\~} b s
+    v=$1
+    echo "_dir_chomp 1 v: $v" >> $HOME/bash_testing/log.txt
+
+    local p=${2/#$HOME/\~} b s
     s=${#p}
-    while [[ $p != "${p//\/}" ]]&&(($s>$2))
+    while [[ $p != "${p//\/}" ]]&&(($s>$3))
     do
         p=${p#/}
         [[ $p =~ \.?. ]]
@@ -152,9 +154,10 @@ function _dir_chomp () {
         ((s=${#b}+${#p}))
     done
     echo -e "${b/\/~/~}${b+/}$p"
-    exit $rv
+
+    echo "_dir_chomp 2 v: $v" >> $HOME/bash_testing/log.txt
+
+    exit $v
 }
 
-
-dir_str='$(_dir_chomp "$(pwd)" 36)'
-export PS1="${CYAN}[${PURPLE}\t${CYAN}] ${WHITE}${dir_str}\`parse_git_branch\` ${PURPLE}\`ret_val\`> ${TEXT_RESET}"
+export PS1="${CYAN}[${PURPLE}\t${CYAN}] ${WHITE}\`_dir_chomp \"\$?\" \"\$(pwd)\" 24\`\`parse_git_branch\` ${PURPLE}\`ret_val\`> ${TEXT_RESET}"
