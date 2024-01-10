@@ -6,6 +6,8 @@
 # https://github.com/nvim-treesitter/nvim-treesitter
 # gruv box theme
 # https://github.com/morhetz/gruvbox
+# Tmux key binds
+# https://gist.github.com/MohamedAlaa/2961058
 
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
