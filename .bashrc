@@ -8,6 +8,8 @@
 # https://github.com/morhetz/gruvbox
 # Tmux key binds
 # https://gist.github.com/MohamedAlaa/2961058
+# Explore Octave, Scientific/Mathmatic scripting language
+# https://octave.org/download
 
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
