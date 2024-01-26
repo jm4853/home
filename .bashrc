@@ -68,8 +68,16 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Add ~/tools to PATH
-export PATH="$PATH:$HOME/tools:$HOME/bin"
+
+# Add to PATH
+for pdir in "$HOME/tools" \
+            "$HOME/bin"
+do
+  if ! [[ "$PATH" =~ (^|:)"$pdir"(:|$) ]]
+  then
+      export PATH="$PATH:$pdir"
+  fi
+done
 
 # To generate RGB color escape codes, use "\033[38;2;{r};{g};{b}m" (WONT WORK IN TMUX, depending on version)
 # https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
