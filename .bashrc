@@ -74,69 +74,70 @@ export PATH="$PATH:$HOME/tools:$HOME/bin"
 # To generate RGB color escape codes, use "\033[38;2;{r};{g};{b}m" (WONT WORK IN TMUX, depending on version)
 # https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
 
-BLUE="\[\033[38;5;27m\]"
-RED="\[\033[38;5;196m\]"
-ORANGE="\[\033[38;5;208m\]"
-CYAN="\[\033[38;5;37m\]"
-PURPLE="\[\033[38;5;91m\]"
-WHITE="\[\033[38;5;15m\]"
-GRAY="\[\033[38;5;241m\]"
-BLACK="\[\033[38;5;0m\]"
-TEXT_RESET="\[\033[00m\]"
+BLUE="\001\033[38;5;27m\002"
+RED="\001\033[38;5;196m\002"
+ORANGE="\001\033[38;5;208m\002"
+CYAN="\001\033[38;5;37m\002"
+PURPLE="\001\033[38;5;91m\002"
+WHITE="\001\033[38;5;15m\002"
+GRAY="\001\033[38;5;241m\002"
+BLACK="\001\033[38;5;0m\002"
+TEXT_RESET="\001\033[00m\002"
 
 # get current branch in git repo
 function parse_git_branch() {
-    v=$?
+    # Let command line return value "pass through" the function
+    rv=$?
     BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
     if [ ! "${BRANCH}" == "" ]
     then
         STAT=`parse_git_dirty`
-        echo -e " \033[38;5;37m[\033[38;5;241m${BRANCH}${STAT}\033[38;5;37m]"
+        echo -ne " ${CYAN}[${GREY}${BRANCH}${STAT}${CYAN}]"
     else
         echo ""
     fi
-    exit $v
+    exit $rv
 }
 
 # get current status of git repo
 function parse_git_dirty {
-	status=`git status 2>&1 | tee`
-	dirty=`echo -n "${status}" 2> /dev/null | grep "modified:" &> /dev/null; echo "$?"`
-	untracked=`echo -n "${status}" 2> /dev/null | grep "Untracked files" &> /dev/null; echo "$?"`
-	ahead=`echo -n "${status}" 2> /dev/null | grep "Your branch is ahead of" &> /dev/null; echo "$?"`
-	newfile=`echo -n "${status}" 2> /dev/null | grep "new file:" &> /dev/null; echo "$?"`
-	renamed=`echo -n "${status}" 2> /dev/null | grep "renamed:" &> /dev/null; echo "$?"`
-	deleted=`echo -n "${status}" 2> /dev/null | grep "deleted:" &> /dev/null; echo "$?"`
-	bits=''
-	if [ "${renamed}" == "0" ]; then
-		bits=">${bits}"
-	fi
-	if [ "${ahead}" == "0" ]; then
-		bits="*${bits}"
-	fi
-	if [ "${newfile}" == "0" ]; then
-		bits="+${bits}"
-	fi
-	if [ "${untracked}" == "0" ]; then
-		bits="?${bits}"
-	fi
-	if [ "${deleted}" == "0" ]; then
-		bits="x${bits}"
-	fi
-	if [ "${dirty}" == "0" ]; then
-		bits="!${bits}"
-	fi
-	if [ ! "${bits}" == "" ]; then
-		echo " ${bits}"
-	else
-		echo ""
-	fi
+    status=`git status 2>&1 | tee`
+    dirty=`echo -n "${status}" 2> /dev/null | grep "modified:" &> /dev/null; echo "$?"`
+    untracked=`echo -n "${status}" 2> /dev/null | grep "Untracked files" &> /dev/null; echo "$?"`
+    ahead=`echo -n "${status}" 2> /dev/null | grep "Your branch is ahead of" &> /dev/null; echo "$?"`
+    newfile=`echo -n "${status}" 2> /dev/null | grep "new file:" &> /dev/null; echo "$?"`
+    renamed=`echo -n "${status}" 2> /dev/null | grep "renamed:" &> /dev/null; echo "$?"`
+    deleted=`echo -n "${status}" 2> /dev/null | grep "deleted:" &> /dev/null; echo "$?"`
+    bits=''
+    if [ "${renamed}" == "0" ]; then
+        bits=">${bits}"
+    fi
+    if [ "${ahead}" == "0" ]; then
+        bits="*${bits}"
+    fi
+    if [ "${newfile}" == "0" ]; then
+        bits="+${bits}"
+    fi
+    if [ "${untracked}" == "0" ]; then
+        bits="?${bits}"
+    fi
+    if [ "${deleted}" == "0" ]; then
+        bits="x${bits}"
+    fi
+    if [ "${dirty}" == "0" ]; then
+        bits="!${bits}"
+    fi
+    if [ ! "${bits}" == "" ]; then
+        echo " ${bits}"
+    else
+        echo ""
+    fi
 }
 
 function ret_val() {
     v=$?
     if [ "$v" -ne "0" ]; then
-        echo -ne "\033[38;5;196m"
+        echo -ne "${RED}"
         if [ "$v" -ne "130" ]; then
             echo -e "$v"
         fi
@@ -144,12 +145,10 @@ function ret_val() {
 }
 
 function _dir_chomp () {
-    v=$1
-    echo "_dir_chomp 1 v: $v" >> $HOME/bash_testing/log.txt
-
-    local p=${2/#$HOME/\~} b s
+    rv=$?
+    local p=${1/#$HOME/\~} b s
     s=${#p}
-    while [[ $p != "${p//\/}" ]]&&(($s>$3))
+    while [[ $p != "${p//\/}" ]]&&(($s>$2))
     do
         p=${p#/}
         [[ $p =~ \.?. ]]
@@ -158,10 +157,15 @@ function _dir_chomp () {
         ((s=${#b}+${#p}))
     done
     echo -e "${b/\/~/~}${b+/}$p"
-
-    echo "_dir_chomp 2 v: $v" >> $HOME/bash_testing/log.txt
-
-    exit $v
+    exit $rv
 }
 
-export PS1="${CYAN}[${PURPLE}\t${CYAN}] ${WHITE}\`_dir_chomp \"\$?\" \"\$(pwd)\" 24\`\`parse_git_branch\` ${PURPLE}\`ret_val\`> ${TEXT_RESET}"
+function _my_pwd () {
+    rv=$?
+    pwd
+    exit $rv
+}
+
+
+dir_str='$(_dir_chomp "$(_my_pwd)" 36)'
+export PS1="${CYAN}[${PURPLE}\t${CYAN}] ${WHITE}${dir_str}\`parse_git_branch\` ${PURPLE}\`ret_val\`> ${TEXT_RESET}"
