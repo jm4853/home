@@ -6,6 +6,8 @@
 set autoindent
 set number
 set tabstop=4
+hi Visual cterm=NONE    ctermbg=cyan  ctermfg=black
+hi Search cterm=reverse ctermbg=black ctermfg=yellow
 
 let mapleader = " "
 map <leader>\ :noh<CR>
