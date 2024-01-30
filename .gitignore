@@ -1,9 +1,12 @@
-# Ignore everything
+# Ignore everything...
 /*
 
-# Except...
+# ...except
 !.gitignore
 !.bashrc
 !.vimrc
 !.bash_aliases
 !.tmux.conf
+!tools/find_path_param.sh
+!tools/write_latex.sh
+!tools/src/filedump.c
