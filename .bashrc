@@ -10,6 +10,8 @@
 # https://gist.github.com/MohamedAlaa/2961058
 # Explore Octave, Scientific/Mathmatic scripting language
 # https://octave.org/download
+# Interesting C compiler stuff
+# https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
 
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
