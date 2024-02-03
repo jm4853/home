@@ -3,9 +3,15 @@
 "syntax enable
 "set background=dark
 "colorscheme solarized
-set autoindent
 set number
+set autoindent
 set tabstop=4
+set softtabstop=4
+set expandtab
+set nosmartindent
+set showcmd
+filetype indent off
+syntax on
 hi Visual cterm=NONE    ctermbg=cyan  ctermfg=black
 hi Search cterm=reverse ctermbg=black ctermfg=yellow
 
